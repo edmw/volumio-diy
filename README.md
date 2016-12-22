@@ -200,4 +200,6 @@ volumio-hid uses a configuration which has to be adapted for the specific RFID r
  1. Find the correct device file for the reader
    * ```/dev/input/by-id/usb-13ba_Barcode_Reader-event-kbd```
 
+$ sudo usermod -a -G input volumio
+
 TODO
