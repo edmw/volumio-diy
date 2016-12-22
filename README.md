@@ -1,4 +1,5 @@
 # volumio-diy
+
 DIY Audio Player project based on Raspberry PI and Volumio.
 
 What I wanted to achieve:
@@ -32,8 +33,8 @@ The player consists of these components:
  1. Flash Volumio to SD Card
    * Version 2.041: http://updates.volumio.org/pi/volumio/2.041/volumio-2.041-2016-12-12-pi.img.zip
  1. Prepare Volumio
-   * Insert SD Card into Raspberry PI
    * Attach Ethernet to Raspberry PI
+   * Insert SD Card into Raspberry PI
    * Power on
    * Open Volumio using Webbrowser
      * ```http://volumio.local/```
@@ -68,8 +69,13 @@ Update current system:
 ```
 Install essential tools:
 ```
-# apt-get install screen less vim
+# apt-get install man less vim screen
+```
+Install essential packages needed to build:
+```
 # apt-get install build-essential
+# apt-get install libx11-dev libxi-dev libev-dev
+# apt-get install --no-install-recommends asciidoc libxml2-utils xsltproc docbook-xsl
 ```
 
 ### Install LXDE
@@ -79,37 +85,38 @@ Install essential tools:
 Install xserver, lxde, lightdm:
 ```
 # apt-get install --no-install-recommends xserver-xorg xutils
-# apt-get install lxde-core lxappearance
-# apt-get install lightdm
+# apt-get install --no-install-recommends lxde-core lxappearance xscreensaver
+# apt-get install --no-install-recommends lightdm
 ```
 
 Configure display manager to autologin:
 ```
 # vim /etc/lightdm/lightdm.conf
-    autologin-user=volumio
+```
+```
+autologin-user=volumio
 ```
 
 ### Install Chromium
 
 *Chromium is a web browser. Chromium will be used to present the user interface of Volumio in Kiosk mode.*
 
-This installs prebuild packages for Chromium browser on Raspbian.
+Add Raspberry Pi Foundation APT repository for Raspbian:
+```
+# vim /etc/apt/sources.list
+```
+```
+deb http://archive.raspberrypi.org/debian/ jessie main
+deb-src http://archive.raspberrypi.org/debian/ jessie main
+```
+```
+# wget http://archive.raspberrypi.org/debian/raspberrypi.gpg.key -O - | sudo apt-key add -
+```
 
-Get software packages:
+Install chromium-browser:
 ```
-$ wget http://launchpadlibrarian.net/234969703/chromium-browser_48.0.2564.82-0ubuntu0.15.04.1.1193_armhf.deb
-$ wget http://launchpadlibrarian.net/234969705/chromium-codecs-ffmpeg-extra_48.0.2564.82-0ubuntu0.15.04.1.1193_armhf.deb
-```
-
-Install:
-```
-# apt-get install libnss3 # Network Security Service
-# apt-get install libnspr4 # Portable NetScape Runtime
-# dpkg -i chromium-codecs-ffmpeg-extra_48.0.2564.82-0ubuntu0.15.04.1.1193_armhf.deb
-# dpkg -i chromium-browser_48.0.2564.82-0ubuntu0.15.04.1.1193_armhf.deb
-# apt-get install -y -f
-# dpkg -i chromium-codecs-ffmpeg-extra_48.0.2564.82-0ubuntu0.15.04.1.1193_armhf.deb
-# dpkg -i chromium-browser_48.0.2564.82-0ubuntu0.15.04.1.1193_armhf.deb
+# apt-get update
+# apt-get install --no-install-recommends chromium-browser
 ```
 
 ### Install unclutter
@@ -118,24 +125,16 @@ Install:
 
 This installs unclutter-fixes build from source.
 
-Prepare for build:
-```
-# apt-get install libx11-dev libxi-dev libev-dev
-```
-
 Clone unclutter-fixes:
 ```
-$ git clone https://github.com/Airblader/unclutter-xfixes
-$ cd unclutter-fixes
-```
-
-Build unclutter-fixes:
-```
-$ make
+# cd /root
+# git clone https://github.com/Airblader/unclutter-xfixes
 ```
 
 Install unclutter-fixes:
 ```
+# cd unclutter-fixes
+# make
 # make install
 ```
 
@@ -145,30 +144,34 @@ Install unclutter-fixes:
 
 Install Python 3:
 ```
-# apt-get install python3
+# apt-get install python3 python3-setuptools python3-venv python3-dev
 # easy_install3 pip
 ```
 
-Install script dependencies:
+Create virtual environment for volumio-hid:
 ```
-# pip3 install evdev
-# pip3 install pyyaml
-# pip3 install socketIO-client
+$ mkdir /home/volumio/.pyenv
+$ python3 -m venv /home/volumio/.pyenv/volumio-hid
+$ source /home/volumio/.pyenv/volumio-hid/bin/activate
+$ pip3 install evdev
+$ pip3 install pyyaml
+$ pip3 install socketIO-client
 ```
 
 Clone volumio-hid:
 ```
+$ cd /home/volumio
 $ git clone https://github.com/edmw/volumio-hid.git
 ```
 
 ### Configure System
 
 ```
-# vim /config.txt
-    gpu_mem=128
+# vim /boot/config.txt
 ```
-
-TODO
+```
+gpu_mem=128
+```
 
 ## Configure Kiosk mode
 
