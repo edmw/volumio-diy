@@ -38,7 +38,9 @@ The player consists of these components:
    * Power on
    * Open Volumio using Webbrowser
      * ```http://volumio.local/```
-   * Configure WLAN
+   * Configure Network/WLAN
+   * Configure Playback/Output
+     * Select 'USB: Codec'
  1. Install Software
    * Connect to Volumio using SSH
      * ```ssh -l volumino volumio.local```
@@ -47,6 +49,7 @@ The player consists of these components:
    * [Install Chromium](#install-chromium)
    * [Install unclutter](#install-unclutter)
    * [Install volumio-hid](#install-volumio-hid)
+   * [Install volumio-diy](#install-volumio-diy)
    * [Configure System](#configure-system)
    * Reboot system
      * ```reboot```
@@ -60,22 +63,38 @@ The player consists of these components:
 ### Install System
 
 Update current system:
+
+`root@volumio.local:~#`
 ```
-# apt-get update
-# apt-get upgrade
-# apt-get install apt-show-versions
-# apt-show-versions -u
-# apt-get dist-upgrade
+apt-get update
+apt-get upgrade
+apt-get install apt-show-versions
+apt-show-versions -u
+apt-get dist-upgrade
 ```
+
 Install essential tools:
+
+`root@volumio.local:~#`
 ```
-# apt-get install man less vim screen
+apt-get install man less vim screen
 ```
+
 Install essential packages needed to build:
+
+`root@volumio.local:~#`
 ```
-# apt-get install build-essential
-# apt-get install libx11-dev libxi-dev libev-dev
-# apt-get install --no-install-recommends asciidoc libxml2-utils xsltproc docbook-xsl
+apt-get install build-essential
+apt-get install libx11-dev libxi-dev libev-dev
+apt-get install --no-install-recommends asciidoc libxml2-utils xsltproc docbook-xsl
+```
+
+Optional: Install additional locales:
+
+`root@volumio.local:~#`
+```
+apt-get install locales
+dpkg-reconfigure locales
 ```
 
 ### Install LXDE
@@ -83,15 +102,19 @@ Install essential packages needed to build:
 *LXDE is a desktop environment build upon the X Window System. This uses LightDM as X display manager. LXDE will be used to run a web browser to present the user interface of Volumio in Kiosk mode.*
 
 Install xserver, lxde, lightdm:
+
+`root@volumio.local:~#`
 ```
-# apt-get install --no-install-recommends xserver-xorg xutils
-# apt-get install --no-install-recommends lxde-core lxappearance xscreensaver
-# apt-get install --no-install-recommends lightdm
+apt-get install --no-install-recommends xserver-xorg xutils
+apt-get install --no-install-recommends lxde-core lxappearance
+apt-get install --no-install-recommends lightdm
 ```
 
 Configure display manager to autologin:
+
+`root@volumio.local:~#`
 ```
-# vim /etc/lightdm/lightdm.conf
+vim /etc/lightdm/lightdm.conf
 ```
 ```
 autologin-user=volumio
@@ -102,21 +125,27 @@ autologin-user=volumio
 *Chromium is a web browser. Chromium will be used to present the user interface of Volumio in Kiosk mode.*
 
 Add Raspberry Pi Foundation APT repository for Raspbian:
+
+`root@volumio.local:~#`
 ```
-# vim /etc/apt/sources.list
+vim /etc/apt/sources.list
 ```
 ```
 deb http://archive.raspberrypi.org/debian/ jessie main
 deb-src http://archive.raspberrypi.org/debian/ jessie main
 ```
+
+`root@volumio.local:~#`
 ```
-# wget http://archive.raspberrypi.org/debian/raspberrypi.gpg.key -O - | sudo apt-key add -
+wget http://archive.raspberrypi.org/debian/raspberrypi.gpg.key -O - | sudo apt-key add -
 ```
 
 Install chromium-browser:
+
+`root@volumio.local:~#`
 ```
-# apt-get update
-# apt-get install --no-install-recommends chromium-browser
+apt-get update
+apt-get install --no-install-recommends chromium-browser
 ```
 
 ### Install unclutter
@@ -126,16 +155,18 @@ Install chromium-browser:
 This installs unclutter-fixes build from source.
 
 Clone unclutter-fixes:
+
+`root@volumio.local:~#`
 ```
-# cd /root
-# git clone https://github.com/Airblader/unclutter-xfixes
+git clone https://github.com/Airblader/unclutter-xfixes
 ```
 
 Install unclutter-fixes:
+
+`root@volumio.local:~/unclutter-fixes#`
 ```
-# cd unclutter-fixes
-# make
-# make install
+make
+make install
 ```
 
 ### Install volumio-hid
@@ -143,31 +174,48 @@ Install unclutter-fixes:
 *volumio-hid is a python script for integration of the rfid reader with Volumio.*
 
 Install Python 3:
+
+`root@volumio.local:~#`
 ```
-# apt-get install python3 python3-setuptools python3-venv python3-dev
-# easy_install3 pip
+apt-get install python3 python3-setuptools python3-venv python3-dev
+easy_install3 pip
 ```
 
 Create virtual environment for volumio-hid:
+
+`volumio@volumio.local:~$`
 ```
-$ mkdir /home/volumio/.pyenv
-$ python3 -m venv /home/volumio/.pyenv/volumio-hid
-$ source /home/volumio/.pyenv/volumio-hid/bin/activate
-$ pip3 install evdev
-$ pip3 install pyyaml
-$ pip3 install socketIO-client
+mkdir /home/volumio/.pyenv
+python3 -m venv /home/volumio/.pyenv/volumio-hid
+source /home/volumio/.pyenv/volumio-hid/bin/activate
+pip3 install evdev
+pip3 install pyyaml
+pip3 install socketIO-client
 ```
 
 Clone volumio-hid:
+
+`volumio@volumio.local:~$`
 ```
-$ cd /home/volumio
-$ git clone https://github.com/edmw/volumio-hid.git
+git clone https://github.com/edmw/volumio-hid.git
+```
+
+### Install volumio-diy
+
+*volumio-diy is this documentation and a set of configuration files to run this audio player.*
+
+Clone volumio-diy:
+
+`root@volumio.local:~#`
+```
+git clone https://github.com/edmw/volumio-diy.git
 ```
 
 ### Configure System
 
+`root@volumio.local:~#`
 ```
-# vim /boot/config.txt
+vim /boot/config.txt
 ```
 ```
 gpu_mem=128
@@ -177,17 +225,24 @@ gpu_mem=128
 
 ### Configure Desktop
 
- 1. Boot into desktop environment
- 1. Change settings:
-   * Set desktop background to black
-   * Hide traschcan icon
+NOOP
 
 ### Configure Autostart
 
+This sets the screensaver to turn off the display after 5 minutes, disables the desktop panel and the file manager application, starts unclutter to hide the mouse cursor and, finally, starts the web browser in kiosk mode.
+
+`volumio@volumio.local:~$`
 ```
-# vim ~/.config/lxsession/LXDE/autostart
-    @unclutter --timeout 0
-    @chromium-browser --kiosk --no-first-run --noerrdialogs --enable-touch-events --disable-touch-editing --disable-3d-apis --disable-breakpad --disable-crash-reporter --disable-infobars --disable-session-crashed-bubble --disable-translate http://localhost:3000/
+vim ~/.config/lxsession/LXDE/autostart
+```
+```
+xset s blank
+xset s 300
+xset dpms 0 300 300
+#@lxpanel --profile LXDE
+#@pcmanfm --desktop --profile LXDE
+@unclutter --timeout 0
+@chromium-browser --kiosk --no-first-run --noerrdialogs --enable-touch-events --disable-touch-editing --disable-3d-apis --disable-breakpad --disable-crash-reporter --disable-infobars --disable-session-crashed-bubble --disable-translate http://localhost:3000/
 ```
 
 ## Configure RFID playback control
@@ -201,5 +256,9 @@ volumio-hid uses a configuration which has to be adapted for the specific RFID r
    * ```/dev/input/by-id/usb-13ba_Barcode_Reader-event-kbd```
 
 $ sudo usermod -a -G input volumio
+$ sudo chmod 664 /lib/systemd/system/volumio-hid.service
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable volumio-hid.service
+$ sudo systemctl start volumio-hid.service
 
 TODO
