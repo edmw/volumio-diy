@@ -2,6 +2,8 @@
 
 DIY Audio Player project based on Raspberry PI and Volumio.
 
+![DIY](https://github.com/edmw/volumio-diy/raw/master/FILES/DIY.jpg)
+
 What I wanted to achieve:
  * Easy handling
  * Good audio playback
