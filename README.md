@@ -80,7 +80,15 @@ Install essential tools:
 apt-get install man less vim screen
 ```
 
-Install essential packages needed to build:
+Install additional locales:
+
+`root@volumio.local:~#`
+```
+apt-get install locales
+dpkg-reconfigure locales
+```
+
+Install packages needed to build from source:
 
 `root@volumio.local:~#`
 ```
@@ -89,12 +97,12 @@ apt-get install libx11-dev libxi-dev libev-dev
 apt-get install --no-install-recommends asciidoc libxml2-utils xsltproc docbook-xsl
 ```
 
-Optional: Install additional locales:
+Optional: Install bluetooth:
 
 `root@volumio.local:~#`
 ```
-apt-get install locales
-dpkg-reconfigure locales
+apt-get install raspberrypi-sys-mods
+apt-get install pi-bluetooth
 ```
 
 ### Install LXDE
