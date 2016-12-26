@@ -1,7 +1,7 @@
 [[Software Installation](#step-by-step-software-installation)]&nbsp;|
 [[Configure Kiosk mode](#configure-kiosk-mode)]&nbsp;|
 [[Configure RFID playback control](#configure-rfid-playback-control)]&nbsp;|
-[[Parts & Links](#parts-and-links)]&nbsp;|
+[[Parts & Links](#appendix-a---parts-list-and-links)]&nbsp;|
 
 # volumio-diy
 
