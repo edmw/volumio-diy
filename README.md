@@ -1,3 +1,8 @@
+[[Software Installation](#step-by-step-software-installation)]&nbsp;|
+[[Configure Kiosk mode](#configure-kiosk-mode)]&nbsp;|
+[[Configure RFID playback control](#configure-rfid-playback-control)]&nbsp;|
+[[Parts & Links](#parts-and-links)]&nbsp;|
+
 # volumio-diy
 
 DIY Audio Player project based on Raspberry PI and Volumio.
@@ -22,7 +27,7 @@ Features:
  * Playback control using RFID tags
  * ...
 
-The player consists of these components:
+The player consists of these [components](#appendix-a-components):
  * Raspberry PI 3
  * Raspberry PI Touch Display
  * Adafruit Stereo Audio Amplifier
@@ -267,10 +272,40 @@ volumio-hid uses a configuration which has to be adapted for the specific RFID r
  1. Find the correct device file for the reader
    * ```/dev/input/by-id/usb-13ba_Barcode_Reader-event-kbd```
 
+```
 $ sudo usermod -a -G input volumio
 $ sudo chmod 664 /lib/systemd/system/volumio-hid.service
 $ sudo systemctl daemon-reload
 $ sudo systemctl enable volumio-hid.service
 $ sudo systemctl start volumio-hid.service
+```
 
-TODO
+FIXME
+
+# Appendix A - Parts list and Links
+
+*List of used parts*
+
+ * Raspberry Pi 3 Model B
+  * https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
+ * Raspberry Pi Touch Display
+  * https://www.raspberrypi.org/products/raspberry-pi-touch-display/
+ * Behringer U-Control UCA222 USB Audio Interface
+  * https://www.amazon.com/dp/B0023BYDHK/
+ * Adafruit Stereo 20W Class D Audio Amplifier
+  * https://www.adafruit.com/products/1752
+ * PAC SNI-1/3.5 Ground Loop Noise Isolator
+  * https://www.amazon.com/dp/B001EAQTRI/
+ * RFID Card Reader and Cards
+  * https://www.amazon.de/gp/product/B00HSDOTTU
+  * https://www.amazon.de/gp/product/B00REFN24A
+ * Toggle Swith and Missile Switch Cover
+  * https://www.sparkfun.com/products/9276
+  * https://www.sparkfun.com/products/9278
+ * Speaker Connector
+  * http://www.dynavox-audio.de/Zubehoer/::108.html
+ * Cables
+  * USB2.0 Typ micro (Power for Raspberry Pi)  
+  * USB2.0 Typ micro (Power for Raspberry Touch Display)
+ * FIXME: 80W AC Adapter
+ * FIXME: 80W DC-DC Converter
