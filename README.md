@@ -5,7 +5,7 @@
 
 # volumio-diy
 
-DIY Audio Player project based on Raspberry PI and Volumio.
+DIY Audio Player project based on Raspberry Pi and Volumio.
 
 ![DIY](https://github.com/edmw/volumio-diy/raw/master/FILES/DIY-1.jpg)
 
@@ -28,8 +28,8 @@ Features:
  * ...
 
 The player consists of these [components](#appendix-a-components):
- * Raspberry PI 3
- * Raspberry PI Touch Display
+ * Raspberry Pi 3
+ * Raspberry Pi Touch Display
  * Adafruit Stereo Audio Amplifier
  * USB-DAC
  * USB-RFID Reader
@@ -42,8 +42,8 @@ The player consists of these [components](#appendix-a-components):
  1. Flash Volumio to SD Card
    * Version 2.041: http://updates.volumio.org/pi/volumio/2.041/volumio-2.041-2016-12-12-pi.img.zip
  1. Prepare Volumio
-   * Attach Ethernet to Raspberry PI
-   * Insert SD Card into Raspberry PI
+   * Attach Ethernet to Raspberry Pi
+   * Insert SD Card into Raspberry Pi
    * Power on
    * Open Volumio using Webbrowser
      * ```http://volumio.local/```
