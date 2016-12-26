@@ -299,7 +299,7 @@ FIXME
  * RFID Card Reader and Cards
   * https://www.amazon.de/gp/product/B00HSDOTTU
   * https://www.amazon.de/gp/product/B00REFN24A
- * Toggle Swith and Missile Switch Cover
+ * Toggle Switch and Missile Switch Cover
   * https://www.sparkfun.com/products/9276
   * https://www.sparkfun.com/products/9278
  * Speaker Connector
