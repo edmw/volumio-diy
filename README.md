@@ -37,6 +37,8 @@ The player consists of these [components](#appendix-a---parts-list-and-links):
  * Internal voltage regulator module (VRM)
  * Mass separation filter (ground loop isolator)
 
+For the player’s enclosure I recycled a mini-computer case and added some wood.
+
 ## Step-by-Step Software Installation
 
  1. Flash Volumio to SD Card
@@ -348,7 +350,8 @@ volumio-hid uses specific RFID tags to perform playback control commands like pl
  * Speaker Connector
   * http://www.dynavox-audio.de/Zubehoer/::108.html
  * Cables
-  * USB2.0 Typ micro (Power for Raspberry Pi)  
-  * USB2.0 Typ micro (Power for Raspberry Touch Display)
- * FIXME: 80W AC Adapter
- * FIXME: 80W DC-DC Converter
+  * Power Supply Micro USB Cable (for Raspberry Pi)
+  * Power Supply Micro USB Cable (for Raspberry Touch Display)
+ * Morex 80W AC Adapter
+ * Morex 80W DC-DC Converter
+ * Morex Cubid 3688 Mini-ITX case
