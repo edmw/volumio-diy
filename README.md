@@ -66,7 +66,7 @@ The player consists of these [components](#appendix-a---parts-list-and-links):
      * ```reboot```
  1. Configure Kiosk mode
    * [Configure Desktop](#configure-desktop)
-   * [Configure Autostart](#configure-desktop)
+   * [Configure Autostart](#configure-autostart)
    * Reboot system
      * ```reboot```
  1. [Configure RFID playback control](#configure-rfid-playback-control)
