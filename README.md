@@ -47,7 +47,9 @@ The player consists of these [components](#appendix-a-components):
    * Power on
    * Open Volumio using Webbrowser
      * ```http://volumio.local/```
-   * Configure Network/WLAN
+   * Configure Network
+     * Select Wireless Network
+     * Disable Hotspot
    * Configure Playback/Output
      * Select 'USB: Codec'
  1. Install Software
@@ -76,17 +78,10 @@ Update current system:
 `root@volumio.local:~#`
 ```
 apt-get update
-apt-get upgrade
-apt-get install apt-show-versions
+apt-get install apt-utils apt-show-versions
 apt-show-versions -u
+apt-get upgrade
 apt-get dist-upgrade
-```
-
-Install essential tools:
-
-`root@volumio.local:~#`
-```
-apt-get install man less vim screen
 ```
 
 Install additional locales:
@@ -97,6 +92,13 @@ apt-get install locales
 dpkg-reconfigure locales
 ```
 
+Install essential tools:
+
+`root@volumio.local:~#`
+```
+apt-get install man-db vim screen
+```
+
 Install packages needed to build from source:
 
 `root@volumio.local:~#`
@@ -105,41 +107,6 @@ apt-get install build-essential
 apt-get install libx11-dev libxi-dev libev-dev
 apt-get install --no-install-recommends asciidoc libxml2-utils xsltproc docbook-xsl
 ```
-
-Optional: Install bluetooth:
-
-`root@volumio.local:~#`
-```
-apt-get install raspberrypi-sys-mods
-apt-get install pi-bluetooth
-```
-
-### Install LXDE
-
-*LXDE is a desktop environment build upon the X Window System. This uses LightDM as X display manager. LXDE will be used to run a web browser to present the user interface of Volumio in Kiosk mode.*
-
-Install xserver, lxde, lightdm:
-
-`root@volumio.local:~#`
-```
-apt-get install --no-install-recommends xserver-xorg xutils
-apt-get install --no-install-recommends lxde-core lxappearance
-apt-get install --no-install-recommends lightdm
-```
-
-Configure display manager to autologin:
-
-`root@volumio.local:~#`
-```
-vim /etc/lightdm/lightdm.conf
-```
-```
-autologin-user=volumio
-```
-
-### Install Chromium
-
-*Chromium is a web browser. Chromium will be used to present the user interface of Volumio in Kiosk mode.*
 
 Add Raspberry Pi Foundation APT repository for Raspbian:
 
@@ -155,13 +122,40 @@ deb-src http://archive.raspberrypi.org/debian/ jessie main
 `root@volumio.local:~#`
 ```
 wget http://archive.raspberrypi.org/debian/raspberrypi.gpg.key -O - | sudo apt-key add -
+apt-get update
 ```
+
+### Install LXDE
+
+*LXDE is a desktop environment build upon the X Window System. This uses LightDM as X display manager. LXDE will be used to run a web browser to present the user interface of Volumio in Kiosk mode.*
+
+Install xserver, lxde, lightdm:
+
+`root@volumio.local:~#`
+```
+apt-get install --no-install-recommends xserver-xorg xutils
+apt-get install --no-install-recommends lxde-core lxappearance
+apt-get install --no-install-recommends lightdm
+```
+
+Configure display manager for autologin:
+
+`root@volumio.local:~#`
+```
+vim /etc/lightdm/lightdm.conf
+```
+```
+autologin-user=volumio
+```
+
+### Install Chromium
+
+*Chromium is a web browser. Chromium will be used to present the user interface of Volumio in Kiosk mode.*
 
 Install chromium-browser:
 
 `root@volumio.local:~#`
 ```
-apt-get update
 apt-get install --no-install-recommends chromium-browser
 ```
 
@@ -228,6 +222,14 @@ Clone volumio-diy:
 git clone https://github.com/edmw/volumio-diy.git
 ```
 
+Install volume-hid service:
+
+`root@volumio.local:~#`
+```
+cp /root/volumio-diy/FILES/HID.service /lib/systemd/system/volumio-hid.service
+chmod 664 /lib/systemd/system/volumio-hid.service
+```
+
 ### Configure System
 
 `root@volumio.local:~#`
@@ -250,7 +252,7 @@ This sets the screensaver to turn off the display after 5 minutes, disables the 
 
 `volumio@volumio.local:~$`
 ```
-vim ~/.config/lxsession/LXDE/autostart
+vim ~/.config/lxsession/LXDE/autostart
 ```
 ```
 xset s blank
@@ -266,21 +268,62 @@ xset dpms 0 300 300
 
 RFID playback control works with RFID readers which present themselves as USB HID keyboard device. That is, it just types out the characters it reads.
 
-volumio-hid uses a configuration which has to be adapted for the specific RFID reader and the specific RFID tags used.
+volumio-hid uses a configuration which has to be adapted for the specific RFID reader and the specific RFID tags used. Some RFID tags can be mapped to playback control commands like play, stop, next and more. All other RFID tags will be used to try start playing a playlist named exactly after the serial of the tag.
 
  1. Connect USB-RFID reader
  1. Find the correct device file for the reader
    * ```/dev/input/by-id/usb-13ba_Barcode_Reader-event-kbd```
+ 1. Adapt service configuration to use correct device file
+   * ```vim ~/volumio-hid/HID.conf```
 
+Configure volume-hid service:
+
+`root@volumio.local:~#`
 ```
-$ sudo usermod -a -G input volumio
-$ sudo chmod 664 /lib/systemd/system/volumio-hid.service
-$ sudo systemctl daemon-reload
-$ sudo systemctl enable volumio-hid.service
-$ sudo systemctl start volumio-hid.service
+usermod -a -G input volumio
+systemctl daemon-reload
+systemctl enable volumio-hid.service
+systemctl start volumio-hid.service
 ```
 
-FIXME
+Check status of volumio-hid service:
+
+`root@volumio.local:~#`
+```
+systemctl status volumio-hid.service
+```
+```
+● volumio-hid.service - volumio-hid Service
+   Loaded: loaded (/lib/systemd/system/volumio-hid.service; enabled)
+   Active: active (running) since Thu 2016-12-29 18:42:26 UTC; 12s ago
+     Docs: https://github.com/edmw/volumio-hid
+ Main PID: 2016 (python)
+   CGroup: /system.slice/volumio-hid.service
+           └─2016 /home/volumio/.pyenv/volumio-hid/bin/python /home/volumio/volumio-hid/HID.py
+
+Dec 29 18:42:26 volumio systemd[1]: Started volumio-hid Service.
+Dec 29 18:42:28 volumio <1031>VOLUMIO-HID[2016]: [Volumio] Connect to 'localhost:3000'
+Dec 29 18:42:28 volumio <1031>VOLUMIO-HID[2016]: [RFID] Get HID device at '/dev/input/by-id/usb-13ba_Barcode_Reader-event-kbd'
+Dec 29 18:42:28 volumio <1031>VOLUMIO-HID[2016]: [RFID] Grab HID device 'Barcode Reader '
+Dec 29 18:42:28 volumio <1030>VOLUMIO-HID[2016]: Clearance ...
+```
+
+Adapt for specific RFID tags:
+
+volumio-hid uses specific RFID tags to perform playback control commands like play, stop, next and more. The serials of these tags must be specified in the configuration of the service.
+
+1. Ensure service is running with debugging enabled
+  * ```vim ~/volumio-hid/HID.conf```
+1. Restart service
+  * ```sudo systemctl restart volumio-hid.service```
+1. Watch syslog for debugging output of service
+  * ```sudo journalctl -f | grep "VOLUMIO-HID"```
+1. Scan specific RFID tags and read the serials from syslog
+  * ```[RFID] Received serial 'XXXXXXXXX' from reader```
+1. Adapt service configuration to use specific RFID tags (and disable debug mode)
+  * ```vim ~/volumio-hid/HID.conf```
+1. Restart service
+  * ```sudo systemctl restart volumio-hid.service```
 
 # Appendix A - Parts list and Links
 
