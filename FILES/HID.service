@@ -1,10 +1,9 @@
 [Unit]
 Description=volumio-hid Service
 Documentation=https://github.com/edmw/volumio-hid
-After=syslog.target network.target multi-user.target
+After=volumio.target
 
 [Service]
-Type=simple
 ExecStart=/home/volumio/.pyenv/volumio-hid/bin/python /home/volumio/volumio-hid/HID.py
 User=volumio
 Group=volumio
