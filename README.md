@@ -27,7 +27,7 @@ Features:
  * Playback control using RFID tags
  * ...
 
-The player consists of these [components](#appendix-a-components):
+The player consists of these [components](#appendix-a---parts-list-and-links):
  * Raspberry Pi 3
  * Raspberry Pi Touch Display
  * Adafruit Stereo Audio Amplifier
