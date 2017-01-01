@@ -250,7 +250,7 @@ NOOP
 
 ### Configure Autostart
 
-This sets the screensaver to turn off the display after 5 minutes, disables the desktop panel and the file manager application, starts unclutter to hide the mouse cursor and, finally, starts the web browser in kiosk mode.
+This sets the screensaver to go blank after 3 minutes and turn off the display after 5 minutes, disables the desktop panel and the file manager application, starts unclutter to hide the mouse cursor and, finally, starts the web browser in kiosk mode.
 
 `volumio@volumio.local:~$`
 ```
@@ -258,8 +258,8 @@ vim ~/.config/lxsession/LXDE/autostart
 ```
 ```
 xset s blank
-xset s 300
-xset dpms 0 300 300
+xset s 180
+xset dpms 0 0 300
 #@lxpanel --profile LXDE
 #@pcmanfm --desktop --profile LXDE
 @unclutter --timeout 0
