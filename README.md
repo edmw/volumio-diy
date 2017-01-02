@@ -5,7 +5,7 @@
 
 # volumio-diy
 
-DIY Audio Player project based on Raspberry Pi and Volumio.
+DIY Audio Player project based on Raspberry PI and Volumio using Touch Display and RFID tags for playback control.﻿
 
 ![DIY](https://github.com/edmw/volumio-diy/raw/master/FILES/DIY-1.jpg)
 
