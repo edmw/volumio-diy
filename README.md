@@ -42,35 +42,35 @@ For the player’s enclosure I recycled a mini-computer case and added some wood
 ## Step-by-Step Software Installation
 
  1. Flash Volumio to SD Card
-   * Version 2.041: http://updates.volumio.org/pi/volumio/2.041/volumio-2.041-2016-12-12-pi.img.zip
+    * Version 2.041: http://updates.volumio.org/pi/volumio/2.041/volumio-2.041-2016-12-12-pi.img.zip
  1. Prepare Volumio
-   * Attach Ethernet to Raspberry Pi
-   * Insert SD Card into Raspberry Pi
-   * Power on
-   * Open Volumio using Webbrowser
-     * ```http://volumio.local/```
-   * Configure Network
-     * Select Wireless Network
-     * Disable Hotspot
-   * Configure Playback/Output
-     * Select 'USB: Codec'
+    * Attach Ethernet to Raspberry Pi
+    * Insert SD Card into Raspberry Pi
+    * Power on
+    * Open Volumio using Webbrowser
+      * ```http://volumio.local/```
+    * Configure Network
+      * Select Wireless Network
+      * Disable Hotspot
+    * Configure Playback/Output
+      * Select 'USB: Codec'
  1. Install Software
-   * Connect to Volumio using SSH
-     * ```ssh -l volumino volumio.local```
-   * [Install System](#install-system)
-   * [Install LXDE](#install-lxde)
-   * [Install Chromium](#install-chromium)
-   * [Install unclutter](#install-unclutter)
-   * [Install volumio-hid](#install-volumio-hid)
-   * [Install volumio-diy](#install-volumio-diy)
-   * [Configure System](#configure-system)
-   * Reboot system
-     * ```reboot```
+    * Connect to Volumio using SSH
+      * ```ssh -l volumino volumio.local```
+    * [Install System](#install-system)
+    * [Install LXDE](#install-lxde)
+    * [Install Chromium](#install-chromium)
+    * [Install unclutter](#install-unclutter)
+    * [Install volumio-hid](#install-volumio-hid)
+    * [Install volumio-diy](#install-volumio-diy)
+    * [Configure System](#configure-system)
+    * Reboot system
+      * ```reboot```
  1. Configure Kiosk mode
-   * [Configure Desktop](#configure-desktop)
-   * [Configure Autostart](#configure-autostart)
-   * Reboot system
-     * ```reboot```
+    * [Configure Desktop](#configure-desktop)
+    * [Configure Autostart](#configure-autostart)
+    * Reboot system
+      * ```reboot```
  1. [Configure RFID playback control](#configure-rfid-playback-control)
 
 ### Install System
