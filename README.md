@@ -56,7 +56,7 @@ For the player’s enclosure I recycled a mini-computer case and added some wood
       * Select 'USB: Codec'
  1. Install Software
     * Connect to Volumio using SSH
-      * ```ssh -l volumino volumio.local```
+      * ```ssh -l volumio volumio.local```
     * [Install System](#install-system)
     * [Install LXDE](#install-lxde)
     * [Install Chromium](#install-chromium)
