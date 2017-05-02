@@ -274,9 +274,9 @@ volumio-hid uses a configuration which has to be adapted for the specific RFID r
 
  1. Connect USB-RFID reader
  1. Find the correct device file for the reader
-   * ```/dev/input/by-id/usb-13ba_Barcode_Reader-event-kbd```
+    * ```/dev/input/by-id/usb-13ba_Barcode_Reader-event-kbd```
  1. Adapt service configuration to use correct device file
-   * ```vim ~/volumio-hid/HID.conf```
+    * ```vim ~/volumio-hid/HID.conf```
 
 Configure volume-hid service:
 
@@ -315,43 +315,43 @@ Adapt for specific RFID tags:
 volumio-hid uses specific RFID tags to perform playback control commands like play, stop, next and more. The serials of these tags must be specified in the configuration of the service.
 
 1. Ensure service is running with debugging enabled
-  * ```vim ~/volumio-hid/HID.conf```
+   * ```vim ~/volumio-hid/HID.conf```
 1. Restart service
-  * ```sudo systemctl restart volumio-hid.service```
+   * ```sudo systemctl restart volumio-hid.service```
 1. Watch syslog for debugging output of service
-  * ```sudo journalctl -f | grep "VOLUMIO-HID"```
+   * ```sudo journalctl -f | grep "VOLUMIO-HID"```
 1. Scan specific RFID tags and read the serials from syslog
-  * ```[RFID] Received serial 'XXXXXXXXX' from reader```
+   * ```[RFID] Received serial 'XXXXXXXXX' from reader```
 1. Adapt service configuration to use specific RFID tags (and disable debug mode)
-  * ```vim ~/volumio-hid/HID.conf```
+   * ```vim ~/volumio-hid/HID.conf```
 1. Restart service
-  * ```sudo systemctl restart volumio-hid.service```
+   * ```sudo systemctl restart volumio-hid.service```
 
 # Appendix A - Parts list and Links
 
 *List of used parts*
 
  * Raspberry Pi 3 Model B
-  * https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
+   * https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
  * Raspberry Pi Touch Display
-  * https://www.raspberrypi.org/products/raspberry-pi-touch-display/
+   * https://www.raspberrypi.org/products/raspberry-pi-touch-display/
  * Behringer U-Control UCA222 USB Audio Interface
-  * https://www.amazon.com/dp/B0023BYDHK/
+   * https://www.amazon.com/dp/B0023BYDHK/
  * Adafruit Stereo 20W Class D Audio Amplifier
-  * https://www.adafruit.com/products/1752
+   * https://www.adafruit.com/products/1752
  * PAC SNI-1/3.5 Ground Loop Noise Isolator
-  * https://www.amazon.com/dp/B001EAQTRI/
+   * https://www.amazon.com/dp/B001EAQTRI/
  * RFID Card Reader and Cards
-  * https://www.amazon.de/gp/product/B00HSDOTTU
-  * https://www.amazon.de/gp/product/B00REFN24A
+   * https://www.amazon.de/gp/product/B00HSDOTTU
+   * https://www.amazon.de/gp/product/B00REFN24A
  * Toggle Switch and Missile Switch Cover
-  * https://www.sparkfun.com/products/9276
-  * https://www.sparkfun.com/products/9278
+   * https://www.sparkfun.com/products/9276
+   * https://www.sparkfun.com/products/9278
  * Speaker Connector
-  * http://www.dynavox-audio.de/Zubehoer/::108.html
+   * http://www.dynavox-audio.de/Zubehoer/::108.html
  * Cables
-  * Power Supply Micro USB Cable (for Raspberry Pi)
-  * Power Supply Micro USB Cable (for Raspberry Touch Display)
+   * Power Supply Micro USB Cable (for Raspberry Pi)
+   * Power Supply Micro USB Cable (for Raspberry Touch Display)
  * Morex 80W AC Adapter
  * Morex 80W DC-DC Converter
  * Morex Cubid 3688 Mini-ITX case
