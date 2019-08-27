@@ -42,19 +42,22 @@ For the player’s enclosure I recycled a mini-computer case and added some wood
 ## Step-by-Step Software Installation
 
  1. Flash Volumio to SD Card
-    * Version 2.041: http://updates.volumio.org/pi/volumio/2.041/volumio-2.041-2016-12-12-pi.img.zip
+    * Version 2.599: http://updates.volumio.org/pi/volumio/2.599/volumio-2.599-2019-08-02-pi.img.zip
  1. Prepare Volumio
     * Attach Ethernet to Raspberry Pi
     * Insert SD Card into Raspberry Pi
     * Power on
     * Open Volumio using Webbrowser
       * ```http://volumio.local/```
+    * Configure Playback/Output
+      * Select 'USB: Codec'
     * Configure Network
       * Select Wireless Network
       * Disable Hotspot
-    * Configure Playback/Output
-      * Select 'USB: Codec'
  1. Install Software
+    * Open Volumio/Dev using Webbrowser
+      * ```http://volumio.local:3000/dev/```
+    * Enable ssh
     * Connect to Volumio using SSH
       * ```ssh -l volumio volumio.local```
     * [Install System](#install-system)
@@ -75,22 +78,19 @@ For the player’s enclosure I recycled a mini-computer case and added some wood
 
 ### Install System
 
-Update current system:
+Update packages list:
 
 `root@volumio.local:~#`
 ```
 apt-get update
-apt-get install apt-utils apt-show-versions
-apt-show-versions -u
-apt-get upgrade
-apt-get dist-upgrade
+apt-get -y install apt-utils apt-show-versions
 ```
 
-Install additional locales:
+Install additional locales (if needed):
 
 `root@volumio.local:~#`
 ```
-apt-get install locales
+apt-get -y install locales
 dpkg-reconfigure locales
 ```
 
@@ -98,16 +98,16 @@ Install essential tools:
 
 `root@volumio.local:~#`
 ```
-apt-get install man-db vim screen
+apt-get -y install man-db vim screen
 ```
 
 Install packages needed to build from source:
 
 `root@volumio.local:~#`
 ```
-apt-get install build-essential
-apt-get install libx11-dev libxi-dev libev-dev
-apt-get install --no-install-recommends asciidoc libxml2-utils xsltproc docbook-xsl
+apt-get -y install build-essential
+apt-get -y install libx11-dev libxi-dev libev-dev
+apt-get -y install --no-install-recommends asciidoc libxml2-utils xsltproc docbook-xsl
 ```
 
 Add Raspberry Pi Foundation APT repository for Raspbian:
@@ -135,9 +135,9 @@ Install xserver, lxde, lightdm:
 
 `root@volumio.local:~#`
 ```
-apt-get install --no-install-recommends xserver-xorg xutils
-apt-get install --no-install-recommends lxde-core lxappearance
-apt-get install --no-install-recommends lightdm
+apt-get -y install --no-install-recommends xserver-xorg xutils
+apt-get -y install --no-install-recommends lxde-core lxappearance
+apt-get -y install --no-install-recommends lightdm
 ```
 
 Configure display manager for autologin:
@@ -154,11 +154,28 @@ autologin-user=volumio
 
 *Chromium is a web browser. Chromium will be used to present the user interface of Volumio in Kiosk mode.*
 
+Install fake packages for kernel, bootloader and pi lib:
+
+`root@volumio.local:~#`
+```
+wget http://repo.volumio.org/Volumio2/Binaries/arm/libraspberrypi0_0.0.1_all.deb
+wget http://repo.volumio.org/Volumio2/Binaries/arm/raspberrypi-bootloader_0.0.1_all.deb
+wget http://repo.volumio.org/Volumio2/Binaries/arm/raspberrypi-kernel_0.0.1_all.deb
+dpkg -i libraspberrypi0_0.0.1_all.deb
+dpkg -i raspberrypi-bootloader_0.0.1_all.deb
+dpkg -i raspberrypi-kernel_0.0.1_all.deb
+echo "libraspberrypi0 hold" | dpkg --set-selections
+echo "raspberrypi-bootloader hold" | dpkg --set-selections
+echo "raspberrypi-kernel hold" | dpkg --set-selections
+```
+
+*Fake packages are needed because Volumio forbids to install packages which will modify firmware files on boot partition.*
+
 Install chromium-browser:
 
 `root@volumio.local:~#`
 ```
-apt-get install --no-install-recommends chromium-browser
+apt-get -y install --no-install-recommends chromium-browser
 ```
 
 ### Install unclutter
@@ -176,7 +193,7 @@ git clone https://github.com/Airblader/unclutter-xfixes
 
 Install unclutter-fixes:
 
-`root@volumio.local:~/unclutter-fixes#`
+`root@volumio.local:~/unclutter-xfixes#`
 ```
 make
 make install
@@ -190,7 +207,7 @@ Install Python 3:
 
 `root@volumio.local:~#`
 ```
-apt-get install python3 python3-setuptools python3-venv python3-dev
+apt-get -y install python3 python3-setuptools python3-venv python3-dev
 easy_install3 pip
 ```
 
@@ -254,14 +271,13 @@ This sets the screensaver to go blank after 3 minutes and turn off the display a
 
 `volumio@volumio.local:~$`
 ```
+mkdir -p .config/lxsession/LXDE
 vim ~/.config/lxsession/LXDE/autostart
 ```
 ```
 xset s blank
 xset s 180
 xset dpms 0 0 300
-#@lxpanel --profile LXDE
-#@pcmanfm --desktop --profile LXDE
 @unclutter --timeout 0
 @chromium-browser --kiosk --no-first-run --noerrdialogs --enable-touch-events --disable-touch-editing --disable-3d-apis --disable-breakpad --disable-crash-reporter --disable-infobars --disable-session-crashed-bubble --disable-translate http://localhost:3000/
 ```
